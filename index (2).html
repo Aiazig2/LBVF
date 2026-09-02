@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laboratório Virtual de Ensino de Física — Guilherme Carlos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --grafite:#16181D;
+  --cobalto:#1E3FCC;
+  --ambar:#E2A33C;
+  --papel:#F2EFE7;
+  --indigo:#11214A;
+  --nevoa:#DCE3F7;
+  --areia:#EFE4CC;
+  --n2:#3A3F4A;
+  --n3:#6E7484;
+  --n4:#A9AEB8;
+  --n5:#D7D4CB;
+  --line:#DAD5C8;
+  --line-soft:#E7E3D8;
+  --bg-outer:#D9D5C9;
+
+  --serif:'Spectral',Georgia,serif;
+  --sans:'Hanken Grotesk',system-ui,Arial,sans-serif;
+  --mono:'Space Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:var(--sans);
+  color:var(--grafite);
+  background:var(--bg-outer);
+  background-image:radial-gradient(circle at 50% 0%, #E4E0D4, #CFCABB);
+  min-height:100vh;
+}
+::selection{background:var(--cobalto);color:#fff}
+:focus-visible{outline:2px solid var(--cobalto);outline-offset:3px}
+
+.sheet{
+  max-width:1280px;
+  margin:0 auto;
+  background:var(--papel);
+  box-shadow:0 40px 120px rgba(20,22,30,.16);
+}
+
+/* ---------- header ---------- */
+header{
+  display:grid;
+  grid-template-columns:1.42fr 1fr;
+  gap:56px;
+  padding:64px 64px 48px;
+  border-bottom:1px solid var(--line);
+  position:relative;
+  overflow:hidden;
+}
+.orbit-decor{position:absolute;top:0;right:0;width:340px;height:240px;opacity:.5;pointer-events:none}
+
+.brand-row{display:flex;align-items:center;gap:18px;margin-bottom:30px}
+.mark{
+  width:88px;height:88px;background:var(--cobalto);border-radius:16px;
+  display:flex;align-items:center;justify-content:center;flex:none;
+  box-shadow:0 10px 28px rgba(30,63,204,.32);
+}
+.brand-divider{width:1px;height:56px;background:var(--line);flex:none}
+.school-mark{width:64px;height:auto;flex:none;filter:drop-shadow(0 6px 14px rgba(20,22,30,.18))}
+.eyebrow{
+  font:700 12px/1 var(--sans);letter-spacing:.34em;text-transform:uppercase;
+  color:var(--cobalto);margin:0 0 8px;
+}
+h1{
+  margin:0;font:500 clamp(32px,4.4vw,52px)/.98 var(--serif);
+  letter-spacing:-.01em;color:var(--grafite);
+}
+.lede{
+  margin:0 0 30px;font:400 21px/1.45 var(--serif);color:var(--n2);max-width:560px;
+}
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:600px}
+.pillars b{display:block;font:700 13px/1 var(--sans);color:var(--grafite);margin-bottom:7px}
+.pillars span{font:400 12px/1.5 var(--sans);color:var(--n3)}
+
+.header-side{display:flex;flex-direction:column;justify-content:flex-end}
+.header-side .label{
+  font:600 10px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;
+  color:var(--n3);margin-bottom:14px;
+}
+.header-side p{margin:0;font:400 14px/1.6 var(--sans);color:var(--n2)}
+.header-meta{
+  margin-top:20px;display:flex;gap:24px;font:400 11px/1 var(--mono);color:var(--n3);
+}
+
+/* ---------- controls ---------- */
+.controls{
+  padding:32px 64px 32px;
+  display:flex;gap:14px;flex-wrap:wrap;align-items:center;
+  border-bottom:1px solid var(--line-soft);
+}
+.search{flex:1 1 260px;position:relative}
+.search input{
+  width:100%;background:#fff;border:1px solid var(--line);border-radius:8px;
+  padding:13px 16px 13px 40px;color:var(--grafite);font-family:var(--sans);font-size:15px;
+}
+.search input::placeholder{color:var(--n4)}
+.search::before{
+  content:"⌕";position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  color:var(--n4);font-size:17px;
+}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filter-btn{
+  font:600 11.5px/1 var(--sans);letter-spacing:.04em;
+  padding:10px 16px;border-radius:999px;border:1px solid var(--line);
+  background:#fff;color:var(--n3);cursor:pointer;transition:.15s;
+}
+.filter-btn:hover{border-color:var(--cobalto);color:var(--cobalto)}
+.filter-btn.active{background:var(--cobalto);border-color:var(--cobalto);color:#fff}
+
+/* ---------- catalog ---------- */
+main{padding:48px 64px 80px}
+.area{margin-bottom:52px}
+.area-head{
+  display:flex;align-items:baseline;gap:14px;margin-bottom:20px;
+  border-bottom:1px solid var(--line);padding-bottom:12px;
+}
+.area-head h2{font:500 26px/1 var(--serif);margin:0;color:var(--grafite)}
+.area-head .count{font:400 11px/1 var(--mono);color:var(--n3)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.sim-card{
+  display:block;text-decoration:none;color:inherit;
+  background:#fff;border:1px solid var(--line);border-radius:10px;
+  padding:24px;transition:.18s border-color,.18s transform,.18s box-shadow;
+  position:relative;overflow:hidden;
+}
+.sim-card::after{
+  content:"";position:absolute;top:0;left:0;width:3px;height:100%;
+  background:var(--cobalto);transform:scaleY(0);transform-origin:top;transition:.18s transform;
+}
+.sim-card:hover{border-color:var(--cobalto);transform:translateY(-2px);box-shadow:0 14px 30px rgba(20,22,30,.08)}
+.sim-card:hover::after{transform:scaleY(1)}
+.sim-card .glyph{
+  width:40px;height:40px;border-radius:9px;background:var(--nevoa);
+  display:flex;align-items:center;justify-content:center;
+  font-size:19px;color:var(--cobalto);margin-bottom:16px;
+}
+.sim-card h3{font:500 20px/1.25 var(--serif);margin:0 0 8px;color:var(--grafite)}
+.sim-card p{font:400 13.5px/1.55 var(--sans);color:var(--n3);margin:0 0 18px}
+.sim-meta{display:flex;justify-content:space-between;align-items:center;font:400 11px/1 var(--mono)}
+.sim-meta .tag{color:var(--ambar)}
+.sim-meta .open{color:var(--cobalto);font-weight:700}
+.sim-card:hover .open::after{content:" →"}
+
+.empty-state{font:400 13px/1 var(--mono);color:var(--n3);padding:40px 0;text-align:center;display:none}
+
+/* ---------- baseline footer ---------- */
+footer{
+  background:var(--indigo);
+  padding:22px 64px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+}
+.footer-brand{display:flex;align-items:center;gap:12px}
+.footer-brand span{font:500 13px/1 var(--serif);color:#fff}
+.footer-meta{font:400 10px/1 var(--mono);color:#7E90C0;letter-spacing:.06em}
+
+/* ---------- responsivo ---------- */
+@media(max-width:900px){
+  header{grid-template-columns:1fr;padding:44px 32px 32px;gap:32px}
+  .header-side{justify-content:flex-start;padding-top:8px;border-top:1px solid var(--line-soft)}
+  .controls{padding:24px 32px}
+  main{padding:32px 32px 56px}
+  footer{padding:20px 32px}
+  .pillars{grid-template-columns:1fr 1fr;max-width:none}
+  .orbit-decor{opacity:.25}
+}
+@media(max-width:560px){
+  .brand-row{flex-wrap:wrap;gap:14px}
+  .brand-divider{display:none}
+  .pillars{grid-template-columns:1fr}
+  .area-head{flex-wrap:wrap}
+  footer{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+<header>
+  <svg class="orbit-decor" viewBox="0 0 340 240" fill="none">
+    <ellipse cx="250" cy="60" rx="150" ry="58" stroke="#C9C3B2" stroke-width="1" transform="rotate(24 250 60)"/>
+    <ellipse cx="250" cy="60" rx="110" ry="42" stroke="#C9C3B2" stroke-width="1" transform="rotate(24 250 60)"/>
+    <ellipse cx="250" cy="60" rx="70" ry="27" stroke="#C9C3B2" stroke-width="1" transform="rotate(24 250 60)"/>
+  </svg>
+
+  <div>
+    <div class="brand-row">
+      <div class="mark">
+        <svg viewBox="0 0 100 100" width="52" height="52" fill="none">
+          <ellipse cx="50" cy="50" rx="40" ry="15" stroke="#FFFFFF" stroke-width="3.4" transform="rotate(32 50 50)"/>
+          <ellipse cx="50" cy="50" rx="40" ry="15" stroke="#FFFFFF" stroke-width="3.4" transform="rotate(-32 50 50)"/>
+          <circle cx="50" cy="50" r="8.5" fill="#FFFFFF"/>
+          <circle cx="83.5" cy="32.5" r="5.2" fill="#E2A33C"/>
+        </svg>
+      </div>
+      <div class="brand-divider"></div>
+      <img class="school-mark" src="assets/logo-ced104.png" alt="Brasão CEd.104 Recanto das Emas">
+      <div>
+        <p class="eyebrow">Física · CEd.104 Recanto das Emas</p>
+        <h1>Laboratório Virtual de Ensino de Física</h1>
+      </div>
+    </div>
+
+    <p class="lede">A física que se vê, se ouve e se ajusta em tempo real — explicada com rigor, clareza e curiosidade.</p>
+
+    <div class="pillars">
+      <div><b>Preciso</b><span>Cada simulação com rigor conceitual e zero ruído.</span></div>
+      <div><b>Curioso</b><span>A física que desperta perguntas, não decoreba.</span></div>
+      <div><b>Próximo</b><span>Interativo e acessível para todo estudante.</span></div>
+    </div>
+  </div>
+
+  <div class="header-side">
+    <p class="label">Sobre o laboratório</p>
+    <p>Guilherme Carlos reúne aqui simulações interativas de física desenvolvidas para a sala de aula — um espaço vivo para explorar conceitos manipulando os parâmetros diretamente, do fenômeno à equação.</p>
+    <div class="header-meta">
+      <span>v1.0 — 2026</span><span id="statTotal">2 simulações</span>
+    </div>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="search">
+    <input type="text" id="busca" placeholder="Buscar por nome, tema ou tag...">
+  </div>
+  <div class="filters" id="filtros">
+    <button class="filter-btn active" data-area="todas">Todas</button>
+  </div>
+</div>
+
+<main id="catalogo"></main>
+
+<footer>
+  <div class="footer-brand">
+    <svg viewBox="0 0 100 100" width="20" height="20" fill="none">
+      <ellipse cx="50" cy="50" rx="40" ry="15" stroke="#fff" stroke-width="5" transform="rotate(32 50 50)"/>
+      <ellipse cx="50" cy="50" rx="40" ry="15" stroke="#fff" stroke-width="5" transform="rotate(-32 50 50)"/>
+      <circle cx="50" cy="50" r="10" fill="#E2A33C"/>
+    </svg>
+    <span>Guilherme Carlos · Física</span>
+  </div>
+  <div class="footer-meta">LABORATÓRIO VIRTUAL · CEd.104 RECANTO DAS EMAS · 2026</div>
+</footer>
+
+</div>
+
+<script>
+// ----------------------------------------------------------------
+// Cada simulação vira uma pasta própria em /simulacoes/<slug>/index.html
+// Para adicionar uma nova simulação, basta adicionar um objeto aqui.
+// ----------------------------------------------------------------
+const simulacoes = [
+  {
+    slug: "canhao-forca",
+    titulo: "Canhão de Força",
+    area: "Mecânica",
+    glyph: "◎",
+    descricao: "Lançamento de projéteis com controle de ângulo, potência e vento. Acerte o alvo e avance de nível calculando o alcance.",
+    tags: ["cinemática", "lançamento oblíquo", "jogo"],
+    nivel: "Ensino Médio"
+  },
+  {
+    slug: "ondas-sonoras",
+    titulo: "Ondas Sonoras e Frequência",
+    area: "Ondulatória",
+    glyph: "∿",
+    descricao: "Visualize e ouça como frequência e amplitude mudam o som — do grave ao agudo — e veja o comprimento de onda em tempo real.",
+    tags: ["som", "frequência", "amplitude"],
+    nivel: "Ensino Médio"
+  }
+];
+
+const areas = [...new Set(simulacoes.map(s => s.area))];
+document.getElementById('statTotal').textContent = simulacoes.length + (simulacoes.length === 1 ? ' simulação' : ' simulações');
+
+const filtrosEl = document.getElementById('filtros');
+areas.forEach(area => {
+  const btn = document.createElement('button');
+  btn.className = 'filter-btn';
+  btn.dataset.area = area;
+  btn.textContent = area;
+  filtrosEl.appendChild(btn);
+});
+
+let areaAtiva = 'todas';
+let termoBusca = '';
+
+function renderCatalogo(){
+  const main = document.getElementById('catalogo');
+  main.innerHTML = '';
+
+  const filtradas = simulacoes.filter(s => {
+    const passaArea = areaAtiva === 'todas' || s.area === areaAtiva;
+    const alvo = (s.titulo + ' ' + s.descricao + ' ' + s.tags.join(' ')).toLowerCase();
+    const passaBusca = alvo.includes(termoBusca.toLowerCase());
+    return passaArea && passaBusca;
+  });
+
+  if(filtradas.length === 0){
+    main.innerHTML = '<div class="empty-state" style="display:block">Nenhuma simulação encontrada para essa busca.</div>';
+    return;
+  }
+
+  const porArea = {};
+  filtradas.forEach(s => {
+    if(!porArea[s.area]) porArea[s.area] = [];
+    porArea[s.area].push(s);
+  });
+
+  Object.keys(porArea).forEach(area => {
+    const secao = document.createElement('section');
+    secao.className = 'area';
+    secao.innerHTML = `
+      <div class="area-head">
+        <h2>${area}</h2>
+        <span class="count">${porArea[area].length} simulação${porArea[area].length > 1 ? 'ões' : ''}</span>
+      </div>
+      <div class="grid"></div>
+    `;
+    const grid = secao.querySelector('.grid');
+    porArea[area].forEach(s => {
+      const a = document.createElement('a');
+      a.className = 'sim-card';
+      a.href = `simulacoes/${s.slug}/index.html`;
+      a.innerHTML = `
+        <span class="glyph">${s.glyph}</span>
+        <h3>${s.titulo}</h3>
+        <p>${s.descricao}</p>
+        <div class="sim-meta">
+          <span class="tag">${s.tags[0]}</span>
+          <span class="open">${s.nivel}</span>
+        </div>
+      `;
+      grid.appendChild(a);
+    });
+    main.appendChild(secao);
+  });
+}
+
+document.getElementById('busca').addEventListener('input', e => {
+  termoBusca = e.target.value;
+  renderCatalogo();
+});
+
+filtrosEl.addEventListener('click', e => {
+  if(e.target.tagName !== 'BUTTON') return;
+  filtrosEl.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  areaAtiva = e.target.dataset.area;
+  renderCatalogo();
+});
+
+renderCatalogo();
+</script>
+
+</body>
+</html>
